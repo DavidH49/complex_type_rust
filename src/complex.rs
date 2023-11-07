@@ -1,7 +1,7 @@
-use std::fmt::{Display, Formatter};
+use std::fmt::{Debug, Display, Formatter};
 use std::ops;
 
-#[derive(PartialEq, PartialOrd, Debug, Copy, Clone)]
+#[derive(PartialEq, PartialOrd)]
 pub struct Complex {
     re: f64,
     im: f64
@@ -19,7 +19,16 @@ impl Complex {
     }
 
     pub fn zero() -> Self {
-        Complex { re: 0.0, im: 0.0 }
+        Complex::uniform(0.0)
+    }
+
+    // Non-Static functions
+    pub fn abs(self) -> Complex {
+        Complex::new(self.re.abs(), self.im.abs())
+    }
+
+    pub fn magnitude(self) -> f64 {
+        (self.re * self.re + self.im * self.im).sqrt()
     }
 }
 
@@ -29,10 +38,7 @@ impl ops::Add<Complex> for Complex {
     type Output = Complex;
     
     fn add(self, rhs: Self) -> Self::Output {
-        Complex {
-            re: self.re + rhs.re,
-            im: self.im + rhs.im,
-        }
+        Complex::new(self.re + rhs.re, self.im + rhs.im)
     }
 }
 
@@ -41,10 +47,7 @@ impl ops::Sub<Complex> for Complex {
     type Output = Complex;
 
     fn sub(self, rhs: Complex) -> Self::Output {
-        Complex {
-            re: self.re - rhs.re,
-            im: self.im - rhs.im,
-        }
+        Complex::new(self.re - rhs.re, self.im - rhs.im)
     }
 }
 
@@ -53,17 +56,43 @@ impl ops::Mul<Complex> for Complex {
     type Output = Complex;
 
     fn mul(self, rhs: Complex) -> Self::Output {
-        Complex {
-            re: self.re * rhs.re - self.im * rhs.im,
-            im: self.re * rhs.im + self.im * rhs.re,
-        }
+        Complex::new(
+            self.re * rhs.re - self.im * rhs.im,
+            self.re * rhs.im + self.im * rhs.re,
+        )
     }
+}
+
+
+impl Clone for Complex {
+    fn clone(&self) -> Self {
+        Complex::new(self.re.clone(), self.im.clone())
+    }
+}
+
+impl Copy for Complex {
+    
 }
 
 
 impl Display for Complex {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        println!("{} + {}i", self.re, self.im);
+        display_complex(self)?;
         Ok(())
     }
+}
+
+
+impl Debug for Complex {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+        display_complex(self)?;
+        Ok(())
+    }
+}
+
+
+pub fn display_complex(c: &Complex) -> std::fmt::Result {
+    let sign = if c.im.is_sign_positive() {"+"} else {"-"};
+    print!("{} {} {}i", c.re, sign, c.im.abs());
+    Ok(())
 }

@@ -1,7 +1,9 @@
 use crate::complex::Complex;
+#[allow(unused_imports)]
+use icecream::ic;
 
 #[test]
-fn test_complex_01() {
+fn test_mult_01() {
     let a = Complex::new(10.0, 5.0);
     let b = Complex::new(3.0, 2.0);
 
@@ -13,7 +15,7 @@ fn test_complex_01() {
 
 
 #[test]
-fn test_complex_02() {
+fn test_mult_02() {
     let a = Complex::new(4.25, 3.1);
     let b = Complex::new(5.5, 6.28);
 
@@ -22,3 +24,12 @@ fn test_complex_02() {
 
     assert_eq!(c, c_expected)
 }
+
+
+/*
+#[test]
+fn test_mult_03() {
+    let a = Complex::new(-6., 2.1);
+    let b = Complex::new(3.5, -4.3);
+}
+*/
