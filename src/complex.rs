@@ -66,9 +66,10 @@ impl ops::Mul<Complex> for Complex {
 
 impl Clone for Complex {
     fn clone(&self) -> Self {
-        Complex::new(self.re.clone(), self.im.clone())
+        *self
     }
 }
+
 
 impl Copy for Complex {
     
@@ -91,8 +92,8 @@ impl Debug for Complex {
 }
 
 
-pub fn display_complex(c: &Complex) -> std::fmt::Result {
+pub fn display_complex(c: & Complex) -> std::fmt::Result {
     let sign = if c.im.is_sign_positive() {"+"} else {"-"};
-    print!("{} {} {}i", c.re, sign, c.im.abs());
+    print!("{} {} {}i", &c.re, sign, &c.im.abs());
     Ok(())
 }

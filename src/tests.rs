@@ -26,10 +26,13 @@ fn test_mult_02() {
 }
 
 
-/*
 #[test]
 fn test_mult_03() {
-    let a = Complex::new(-6., 2.1);
+    let a = Complex::new(-6.0, 2.1);
     let b = Complex::new(3.5, -4.3);
+
+    let c = a * b;
+    let c_expected = Complex::new(-11.97, 33.15);
+
+    assert_eq!(c, c_expected)
 }
-*/
